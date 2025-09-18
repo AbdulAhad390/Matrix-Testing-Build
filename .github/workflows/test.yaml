@@ -8,6 +8,10 @@ on:
       - "v*.*.*"
   pull_request:
 
+permissions:
+  issues: write
+  contents: read
+
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true   # (Optional) Cancel superseded runs
