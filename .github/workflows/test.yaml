@@ -49,6 +49,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Wait for manual approval
+        uses: trstringer/manual-approval@v1
+        with:
+          approvers: AbdulAhad390
+          minimum-approvals: 1
+          issue-title: "Approval needed for build on ${{ github.ref }}"
+          issue-body: "Please approve or deny the build for commit ${{ github.sha }}."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup Node.js (default LTS)
         uses: actions/setup-node@v4
         with:
@@ -65,9 +75,3 @@ jobs:
         with:
           name: dist
           path: dist/
-
-      - name: Manual approval before publish
-        if: always()
-        uses: hmarr/auto-approve-action@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
